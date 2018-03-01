@@ -1,11 +1,6 @@
 const fs = require("fs");
 /* READ
-In this exercise, you need to utilize the provided functions as callbacks so that the
-tests pass. The input file contains space-separated numbers on multiple lines of a
-.txt file. Just by filling in the appropriate callbacks, you should be able to
-generate an output.txt file of booleans reflecting whether the sum of the numbers on
-a line add up to more or less than one hundred. You must also invoke the callback
-passed to initiateParse so that it runs after you have written your output file.
+In this exercise, you need to utilize the provided functions as callbacks so that the tests pass. The input file contains space-separated numbers on multiple lines of a .txt file. Just by filling in the appropriate callbacks, you should be able to generate an output.txt file of booleans reflecting whether the sum of the numbers on a line add up to more or less than one hundred. You must also invoke the callback passed to initiateParse so that it runs after you have written your output file.
 
 EXAMPLE:
 
@@ -35,13 +30,10 @@ false
 
 /* ----------------------------  */
 
-// DO NOT EDIT; replace the references to it with references to other functions
-function PLACEHOLDER() {};
-
 // call the callback to initiateParse so that it only runs after parsing is complete
 function initiateParse(callback) {
   // begins the parsing process by reading input
-  fs.readFile(__dirname + '/../input.txt', 'utf8', PLACEHOLDER);
+  fs.readFile(__dirname + '/../input.txt', 'utf8', splitLines);
   
   // writes output to output file
   function writeOutput(err, data) {
@@ -56,6 +48,7 @@ function initiateParse(callback) {
     fs.writeFile(__dirname + '/../output.txt', output, function(err) {
       if (err) throw err;
     });
+    callback();
   };
   
   // async function that sums lines and determines if they add up to more than 100
@@ -81,7 +74,7 @@ function initiateParse(callback) {
   function splitLines(err, data) {
     if (err) throw err;
     let input = data.toString().split('\n');
-    calculateLines(input, PLACEHOLDER);
+    calculateLines(input, writeOutput);
   };
 
 }

@@ -10,24 +10,33 @@ var http = require('http');
 // characters wtih a house property matching the house found in house.txt. Pass this array
 // into the getStudents callback to pass the tests.
 function getStudents(callback) {
-    http.get({
-        host: 'hp-api.herokuapp.com',
-        path: '/api/characters/students'
-    }, function(response) {
-        // Continuously update stream with data
-        var body = '';
-        response.on('data', function(d) {
-            body += d;
+  http.get(
+    {
+      host: "hp-api.herokuapp.com",
+      path: "/api/characters/students"
+    },
+    function(response) {
+      // Continuously update stream with data
+      var body = "";
+      response.on("data", function(d) {
+        body += d;
+      });
+      response.on("end", function() {
+        // Data reception is done, do whatever with it!
+        var parsedData = JSON.parse(body);
+        var pathToHouseFile = __dirname + "/../house.txt";
+
+        // CODE HERE
+        fs.readFile(pathToHouseFile, "utf8", (err, data) => {
+          let filtered = 
+          parsedData
+          .filter(student => student.house === data)
+          .map(student => student = student.name);
+          callback(filtered);
         });
-        response.on('end', function() {
-            // Data reception is done, do whatever with it!
-            var parsedData = JSON.parse(body);
-            var pathToHouseFile = __dirname + '/../house.txt';
-            
-            // CODE HERE
-            // fs.readFile(pathToHouseFile, 'utf8'
-        });
-    });
+      });
+    }
+  );
 }
 
 module.exports = getStudents;

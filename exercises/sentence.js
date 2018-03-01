@@ -21,7 +21,17 @@ function getThirdWord(callback) {
 
 // use the above functions to complete the sentence and pass it to this function's callback
 function getSentence(callback) {
-  // CODE HERE
+  let results = '';
+  getFirstWord((word) => {
+    results += word;
+    getSecondWord((word) => {
+      results += word;
+      getThirdWord((word) => {
+        results += word;
+        callback(results);
+      })
+    })
+  });
 }
 
 module.exports = getSentence;
